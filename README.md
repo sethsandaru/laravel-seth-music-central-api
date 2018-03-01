@@ -15,7 +15,11 @@ Seth's Music Central web app restful API, using newest Laravel 5.6
 3. Create database with 2 options:
     + Import .sql file
     + Run: php artisan migrate:fresh
-    
+    + Run: php artisan db:seed
+
+Default account:
++ Email: seth@gmail.com
++ Password: 123456    
     
 ## Client-side:
 Visit: https://github.com/sethsandaru/vuejs-seth-music-central
