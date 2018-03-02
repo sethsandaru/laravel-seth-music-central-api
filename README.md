@@ -1,5 +1,7 @@
 # laravel-seth-music-central-api
-Seth's Music Central web app restful API, using newest Laravel 5.6
+Seth's Music Central web app restful API, using newest Laravel 5.6.
+
+A WebService using Restful API to help me to deal with the backend logic and contact with Vue Single Page Web App.
 
 ## Description
 + Server-side of Seth's Music Central
@@ -14,8 +16,9 @@ Seth's Music Central web app restful API, using newest Laravel 5.6
 2. Run: composer update
 3. Create database with 2 options:
     + Import .sql file
-    + Run: php artisan migrate:fresh
-    + Run: php artisan db:seed
+    + Or run command:
+        + Run: php artisan migrate:fresh
+        + Run: php artisan db:seed
 
 Default account:
 + Email: seth@gmail.com
@@ -24,4 +27,4 @@ Default account:
 ## Client-side:
 Visit: https://github.com/sethsandaru/vuejs-seth-music-central
 
-Copyright 2018 by Phat Tran Minh (http://sethphat.com)[SethPhat.com], all right reserved!
+Copyright &copy; 2018 by Phat Tran Minh [http://sethphat.com](SethPhat.com), all right reserved!
