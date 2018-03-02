@@ -43,6 +43,9 @@ class MusicController extends Controller
     // search music
     public function Search()
     {
+        if (\request()->method() != 'GET')
+            return response()->setStatusCode('401')->json(['error', 'method not allowed']);
+
         $rq = \request();
         $keyword = '';
         if ($rq->has('keyword'))
@@ -82,5 +85,24 @@ class MusicController extends Controller
                     ->get();
 
         return response()->json($musics);
+    }
+
+    /*
+     * Get Music by ID
+     */
+    public function GetByID($id)
+    {
+        if (\request()->method() != 'GET')
+            return response()->setStatusCode('401')->json(['error', 'method not allowed']);
+        
+        return response()->json(Music::find($id));
+    }
+
+    /*
+     * Redirect to music file
+     */
+    public function MusicFile($music_name)
+    {
+        return redirect("/upload/musics/" . $music_name);
     }
 }
