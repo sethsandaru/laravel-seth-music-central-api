@@ -13,7 +13,7 @@ class UserPlaylist extends Model
         'up_total_songs',
         'user_id',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     // relationship function
