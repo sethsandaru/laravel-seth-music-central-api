@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Return playlist
+     */
+    public function playlists()
+    {
+        return $this->hasMany('App\UserPlaylist', 'user_id', 'id');
+    }
 }

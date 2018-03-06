@@ -20,7 +20,7 @@ class UserController extends Controller
         $rq = \request();
         $result = [];
         if ($rq->method() != 'POST')
-            return response()->setStatusCode('401')->json(['error', 'method not allowed']);
+            return response()->json(['error' => 'method not allowed']);
 
         $posts = [
             'email'     => $rq->post('email'),
@@ -41,14 +41,14 @@ class UserController extends Controller
         }
         else {
             // login now
-            $user = User::where('email', $posts['email'])->first();
+            $user = User::where('email', $posts['email'])->with('playlists')->first();
 
-            if ($user != null)
+            if ($user == null)
             {
                 $result['error'] = "Login failed, this email is not exists!";
             }
             else {
-                if (Hash::make($posts['password']) == $user->password) {
+                if (Hash::check($posts['password'], $user->password)) {
                     // login ok
                     $result['data'] = [
                         'msg' => 'Login ok!',
@@ -56,7 +56,7 @@ class UserController extends Controller
                     ];
                 }
                 else {
-                    $result['error'] = "Login failed, this email is not exists!";
+                    $result['error'] = "Login failed, wrong password!";
                 }
             }
         }
@@ -72,7 +72,7 @@ class UserController extends Controller
         $rq = \request();
         $result = [];
         if ($rq->method() != 'POST')
-            return response()->setStatusCode('401')->json(['error', 'method not allowed']);
+            return response()->json(['error' => 'method not allowed']);
 
         // validator
         $posts = [
@@ -99,7 +99,7 @@ class UserController extends Controller
             $user = new User;
             $user->name = $posts['name'];
             $user->email = $posts['email'];
-            $user->password = $posts['password'];
+            $user->password = Hash::make($posts['password']);
             $user->save();
 
             if($user->id > 0)

@@ -81,10 +81,14 @@ class MusicController extends Controller
                 ->take($limit);
         }
 
+        $count = $musics->count();
         $musics = $musics->orderBy('created_at', 'DESC')
                     ->get();
 
-        return response()->json($musics);
+        return response()->json([
+            'musics' => $musics,
+            'total'  => $count
+        ]);
     }
 
     /*
