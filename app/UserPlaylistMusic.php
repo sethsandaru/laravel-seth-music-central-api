@@ -8,6 +8,7 @@ class UserPlaylistMusic extends Model
 {
     protected $table = 'user_playlist_musics';
     protected $primaryKey = 'upm_id';
+    public $timestamps = false;
     protected $fillable = [
         'music_id',
         'up_id',

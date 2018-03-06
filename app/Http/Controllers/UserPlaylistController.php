@@ -38,7 +38,7 @@ class UserPlaylistController extends Controller
             $title = "My New Noname Lyrics";
 
         $pl = new UserPlaylist;
-        $pl->title = $title;
+        $pl->up_name = $title;
         $pl->user_id = $user_id;
         $pl->up_total_songs = 0;
         $pl->save();
@@ -59,8 +59,12 @@ class UserPlaylistController extends Controller
         $music_id = $rq->post('music_id');
         $music = Music::find($music_id);
         $playlist = UserPlaylist::find($playlist_id);
+        $existed = UserPlaylistMusic::where([
+            ['music_id', $music_id],
+            ['up_id', $playlist_id]
+        ])->count();
 
-        if ($music != null && $playlist != null)
+        if ($music != null && $playlist != null && $existed == 0)
         {
             $new = new UserPlaylistMusic;
             $new->music_id = $music->music_id;
@@ -70,10 +74,10 @@ class UserPlaylistController extends Controller
             if ($new->upm_id > 0)
                 return json_encode($new);
             else
-                return response()->json(['error' => 'failed to create']);
+                return response()->json(['error' => 'Failed to create']);
         }
         else {
-            return response()->json(['error' => 'resource not available']);
+            return response()->json(['error' => 'Resource not available to add or this song already existed in your playlist!']);
         }
     }
 }

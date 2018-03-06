@@ -49,7 +49,7 @@ class UserController extends Controller
             }
             else {
                 if (Hash::check($posts['password'], $user->password)) {
-                    // login ok
+                    // return data, login ok
                     $result['data'] = [
                         'msg' => 'Login ok!',
                         'user_data' => $user

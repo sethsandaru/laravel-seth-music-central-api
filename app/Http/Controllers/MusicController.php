@@ -103,6 +103,24 @@ class MusicController extends Controller
     }
 
     /*
+     *
+     */
+    public function AddNewView($music_id)
+    {
+        $music = Music::find($music_id);
+
+        if ($music != null)
+        {
+            $music->total_view++;
+            $music->save();
+            return response()->json(['success' => 'ok']);
+        }
+        else {
+            return response()->json(['error' => 'failed']);
+        }
+    }
+
+    /*
      * Redirect to music file
      */
     public function MusicFile($music_name)
