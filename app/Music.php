@@ -8,6 +8,7 @@ class Music extends Model
 {
     protected $table = 'musics';
     protected $primaryKey = 'music_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'music_name',

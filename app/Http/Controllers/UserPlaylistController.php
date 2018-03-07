@@ -13,13 +13,17 @@ class UserPlaylistController extends Controller
      * Get user playlists
      * @param $user_id
      */
-    public function GetUserPlaylist($user_id)
+    public function GetUserPlaylist($playlist_id)
     {
-        $myPlaylist = UserPlaylist::where('user_id', $user_id)->with('playlist_musics')->get();
+        $user_id = \request()->get('user_id');
+        $myPlaylist = UserPlaylist::where([
+                ['up_id', $playlist_id],
+                ['user_id', $user_id]
+            ])
+            ->with('playlist_musics')->first();
 
-        foreach ($myPlaylist as $item)
-            foreach ($item->playlist_musics as $m)
-                $m->info = $m->music;
+        foreach ($myPlaylist->playlist_musics as $m)
+            $m->info = $m->music;
 
         return response()->json(
             $myPlaylist
@@ -71,8 +75,12 @@ class UserPlaylistController extends Controller
             $new->up_id = $playlist->up_id;
             $new->save();
 
-            if ($new->upm_id > 0)
+            if ($new->upm_id > 0){
+                $playlist->up_total_songs++;
+                $playlist->save();
+
                 return json_encode($new);
+            }
             else
                 return response()->json(['error' => 'Failed to create']);
         }

@@ -92,6 +92,29 @@ class MusicController extends Controller
     }
 
     /*
+     * Get hottest music with pagination
+     */
+    public function HottestWithPagination($genre_id)
+    {
+        if (\request()->method() != 'GET')
+            return response()->setStatusCode('401')->json(['error', 'method not allowed']);
+
+        $rq = \request();
+        $start = $rq->has('start') ? $rq->get('start') : 0;
+        $limit = $rq->has('limit') ? $rq->get('limit') : 10;
+
+        $musics = Music::where('genre_id', $genre_id)
+                            ->orderBy('total_view', 'DESC')
+                            ->skip($start)
+                            ->take($limit);
+
+        return response()->json([
+            'musics' => $musics->get(),
+            'total'  => Music::where('genre_id', $genre_id)->count()
+        ]);
+    }
+
+    /*
      * Get Music by ID
      */
     public function GetByID($id)
